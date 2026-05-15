@@ -46,18 +46,6 @@ public class CooldownListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onResurrect(EntityResurrectEvent event) {
-        if (event.getEntityType() != EntityType.PLAYER) {
-            return;
-        }
-
-        Player player = (Player) event.getEntity();
-        if(cooldownManager.checkItemUse(player, Material.TOTEM_OF_UNDYING)) {
-            event.setCancelled(true);
-        }
-    }
-
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onItemConsume(PlayerItemConsumeEvent e) {
         Material material = e.getItem().getType();

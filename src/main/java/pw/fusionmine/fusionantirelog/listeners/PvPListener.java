@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustByEntityEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
@@ -42,6 +43,15 @@ public class PvPListener implements Listener {
         if (pvpManager.isTagged(e.getPlayer())) {
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onCombust(EntityCombustByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
+        Player damager = (Player) event.getEntity();
+        Player damaged = pvpManager.getDamager(event.getCombuster());
+        pvpManager.setTagged(damager, damaged);
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
