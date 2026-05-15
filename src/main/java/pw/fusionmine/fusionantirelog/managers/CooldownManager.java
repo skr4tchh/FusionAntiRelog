@@ -44,7 +44,7 @@ public class CooldownManager {
         if (pvpManager.getTagTimeRaw(player) <= 0L)
             return false;
         long cd = settings.getItemCooldown(material);
-        if (cd == 0L)
+        if (cd == 0f)
             return false;
         int timeleft = getCooldownTime(player, material);
         if (timeleft > 0) {
@@ -56,7 +56,6 @@ public class CooldownManager {
             return true;
         }
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
-        player.setCooldown(material, (int) cd * 20);
         return false;
     }
 

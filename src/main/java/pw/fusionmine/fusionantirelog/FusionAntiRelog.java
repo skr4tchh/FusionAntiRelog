@@ -40,7 +40,7 @@ public class FusionAntiRelog extends JavaPlugin {
 
     private void loadListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new CooldownListener(cooldownManager, pvpManager), this);
+        pluginManager.registerEvents(new CooldownListener(cooldownManager), this);
         pluginManager.registerEvents(new PvPListener(pvpManager, settings, locale), this);
     }
 

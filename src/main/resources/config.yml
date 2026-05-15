@@ -1,13 +1,13 @@
 pvp-time: 30
 bar-color: RED
 item-cooldowns:
-  ENDER_PEARL: 10
-  CHORUS_FRUIT: 3
-  WIND_CHARGE: 3
-  GOLDEN_APPLE: 5
   ENCHANTED_GOLDEN_APPLE: 100
   FIREWORK_ROCKET: 30
-  TOTEM_OF_UNDYING: 7
+  ENDER_PEARL: 10
+  GOLDEN_APPLE: 10
+  TOTEM_OF_UNDYING: 10
+  WIND_CHARGE: 5
+  CHORUS_FRUIT: 5
 valid-kick-reasons: []
 commands-whitelist:
   - msg

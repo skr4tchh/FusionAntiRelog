@@ -76,7 +76,7 @@ public class PvPManager {
     }
 
     public long getTagTimeRaw(Player player) {
-        return (this.tagged.getOrDefault(player.getName(), Long.valueOf(System.currentTimeMillis()))).longValue() - System.currentTimeMillis();
+        return this.tagged.getOrDefault(player.getName(), System.currentTimeMillis()) - System.currentTimeMillis();
     }
 
     public void setTagged(Player damager, Player... damaged) {
@@ -88,16 +88,13 @@ public class PvPManager {
         if (participants.size() <= 1)
             return;
         participants.forEach(player -> {
+            if(hasBypass(player)) return;
             boolean started = (this.tagged.put(player.getName(), Long.valueOf(System.currentTimeMillis() + this.settings.getTagTime())) == null);
             if (started) {
                 player.sendMessage(locale.getMessage("pvp-entered"));
                 plugin.getBossBarManager().createBossBar(player);
             }
         });
-    }
-
-    public boolean hasBypass(Player player) {
-        return player.hasPermission("fusionantirelog.bypass");
     }
 
     public boolean isTagged(Player player) {
@@ -112,9 +109,9 @@ public class PvPManager {
                 .orElse(null);
     }
 
-    public boolean checkDamager(Player damager) {
+    public boolean hasBypass(Player damager) {
         if (damager.hasPermission("fusionantirelog.bypass"))
-            return false;
+            return true;
         damager.setGameMode(GameMode.SURVIVAL);
         damager.setFlying(false);
         damager.setAllowFlight(false);

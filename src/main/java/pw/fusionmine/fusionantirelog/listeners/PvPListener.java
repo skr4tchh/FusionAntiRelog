@@ -36,6 +36,9 @@ public class PvPListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onTeleport(PlayerTeleportEvent e) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.CONSUMABLE_EFFECT || e.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
+            return;
+        }
         if (pvpManager.isTagged(e.getPlayer())) {
             e.setCancelled(true);
         }
@@ -49,10 +52,6 @@ public class PvPListener implements Listener {
         Player damager = pvpManager.getDamager(e.getDamager());
         if (damager == null || damaged == damager)
             return;
-        if (pvpManager.checkDamager(damager) || pvpManager.checkDamager(damaged)) {
-            e.setCancelled(true);
-            return;
-        }
         pvpManager.setTagged(damager, damaged);
     }
 
@@ -80,10 +79,6 @@ public class PvPListener implements Listener {
         List<Player> damaged = e.getAffectedEntities().stream().filter(le -> (le != damager)).filter(Player.class::isInstance).map(Player.class::cast).collect(Collectors.toList());
         if (damager == null || damaged.isEmpty())
             return;
-        if (pvpManager.checkDamager(damager)) {
-            e.setCancelled(true);
-            return;
-        }
         pvpManager.setTagged(damager, damaged);
     }
 

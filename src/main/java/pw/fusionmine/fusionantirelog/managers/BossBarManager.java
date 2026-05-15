@@ -38,7 +38,7 @@ public class BossBarManager {
     }
 
     public void createBossBar(Player player) {
-        BossBar bossBar = Bukkit.createBossBar(Utils.replaceTime(locale.getMessage("bossbar-time"), this.settings.getRawTagTime()), this.settings.getBarColor(), BarStyle.SOLID);
+        BossBar bossBar = Bukkit.createBossBar(Utils.replaceTime(locale.getMessage("bossbar-time"), this.settings.getRawTagTime()), settings.getBarColor(), BarStyle.SOLID);
         bossBar.addPlayer(player);
         bossBar.setProgress(1.0D);
         this.bossBarMap.put(player.getName(), bossBar);
@@ -46,8 +46,9 @@ public class BossBarManager {
 
     public void updateBossBar(Player player, int timeLeft) {
         BossBar bossBar = this.bossBarMap.get(player.getName());
+        double progress = Math.max(0.0, Math.min(1.0, (double) pvpManager.getTagTimeRaw(player) / settings.getTagTime()));
         bossBar.setTitle(Utils.replaceTime(locale.getMessage("bossbar-time"), timeLeft));
-        bossBar.setProgress(pvpManager.getTagTimeRaw(player) / settings.getTagTime());
+        bossBar.setProgress(progress);
     }
 
 }
