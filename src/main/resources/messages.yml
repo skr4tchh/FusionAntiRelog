@@ -1,0 +1,7 @@
+bossbar-time: '&fДо окончания PvP режима - &c%time% &f%formated-sec%'
+pvp-entered: '&6АнтиРелог &8» &fВы вошли в PVP режим. &fЗа выход с сервера - &cсмерть.'
+pvp-ended: '&6АнтиРелог &8» &fPVP режим &aзакончился. &fМожно спокойно выходить.'
+cmd-blocked: '&6АнтиРелог &8» &fКоманды во время &6PvP &fотключены.'
+cooldown:
+  title: '&c&l✖'
+  subtitle: '&fБудет доступно через &c%time%&f %formated-sec%.'

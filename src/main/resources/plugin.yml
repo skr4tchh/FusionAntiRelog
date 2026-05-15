@@ -1,0 +1,4 @@
+name: FusionAntiRelog
+version: '${version}'
+main: pw.fusionmine.fusionantirelog.FusionAntiRelog
+api-version: '1.21'
