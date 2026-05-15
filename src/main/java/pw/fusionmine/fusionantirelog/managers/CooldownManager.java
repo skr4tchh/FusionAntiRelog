@@ -41,7 +41,7 @@ public class CooldownManager {
     }
 
     public boolean checkItemUse(Player player, Material material) {
-        if (pvpManager.getTagTimeRaw(player) <= 0L)
+        if (!pvpManager.isTagged(player))
             return false;
         long cd = settings.getItemCooldown(material);
         if (cd == 0f)
@@ -56,6 +56,7 @@ public class CooldownManager {
             return true;
         }
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
+        player.setCooldown(material, (int) (cd / 50));
         return false;
     }
 

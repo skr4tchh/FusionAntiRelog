@@ -5,6 +5,7 @@ import com.google.common.collect.UnmodifiableIterator;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -51,6 +52,9 @@ public class PvPManager {
     public void clear(Player player) {
         String name = player.getName();
         this.tagged.remove(name);
+        for(Material material : plugin.getCooldownManager().getCooldowns().columnKeySet()) {
+            player.setCooldown(material, 0);
+        }
         plugin.getCooldownManager().getCooldowns().row(name).clear();
         plugin.getBossBarManager().removeBossBar(name);
     }
