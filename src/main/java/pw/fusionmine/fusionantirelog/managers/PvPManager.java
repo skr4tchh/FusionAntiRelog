@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.scheduler.BukkitTask;
 import pw.fusionmine.fusionantirelog.FusionAntiRelog;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
@@ -29,6 +30,8 @@ public class PvPManager {
 
     private Locale locale;
 
+    private BukkitTask task;
+
     public PvPManager(
             FusionAntiRelog plugin,
             Settings settings,
@@ -40,21 +43,17 @@ public class PvPManager {
     }
 
     public void load() {
-        plugin.getServer()
-                .getScheduler()
-                .runTaskTimerAsynchronously(plugin, this::checkTags, 20L, 20L);
+        task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::checkTags, 20L, 20L);
     }
 
     public void unload() {
         plugin.getServer().getOnlinePlayers().forEach(this::clear);
+        task.cancel();
     }
 
     public void clear(Player player) {
         String name = player.getName();
         this.tagged.remove(name);
-        for(Material material : plugin.getCooldownManager().getCooldowns().columnKeySet()) {
-            player.setCooldown(material, 0);
-        }
         plugin.getCooldownManager().getCooldowns().row(name).clear();
         plugin.getBossBarManager().removeBossBar(name);
     }

@@ -56,7 +56,6 @@ public class CooldownManager {
             return true;
         }
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
-        player.setCooldown(material, (int) (cd / 50));
         return false;
     }
 
