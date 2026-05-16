@@ -20,6 +20,15 @@ public class CooldownListener implements Listener {
         this.cooldownManager = cooldownManager;
     }
 
+    @EventHandler
+    public void onTotem(EntityResurrectEvent e) {
+        if (e.getEntity() instanceof Player player) {
+            if (cooldownManager.checkItemUse(player, Material.TOTEM_OF_UNDYING)) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         if (!event.hasItem() || !event.getAction().isRightClick()) return;

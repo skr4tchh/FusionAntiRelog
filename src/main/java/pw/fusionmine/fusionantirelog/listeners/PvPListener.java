@@ -45,15 +45,6 @@ public class PvPListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onCombust(EntityCombustByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player))
-            return;
-        Player damager = (Player) event.getEntity();
-        Player damaged = pvpManager.getDamager(event.getCombuster());
-        pvpManager.setTagged(damager, damaged);
-    }
-
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerDamagerByPlayer(EntityDamageByEntityEvent e) {
         if (e.getEntityType() != EntityType.PLAYER)
@@ -68,6 +59,20 @@ public class PvPListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
         pvpManager.clear(e.getEntity());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onCombust(EntityCombustByEntityEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+
+        Player target = (Player) e.getEntity();
+
+        if (!(e.getCombuster() instanceof Player)) return;
+        Player damager = (Player) e.getCombuster();
+
+        if (damager == target) return;
+
+        pvpManager.setTagged(damager, target);
     }
 
     @EventHandler
