@@ -7,7 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
-import pw.fusionmine.fusionantirelog.utils.Utils;
+import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
+import pw.fusionmine.fusionantirelog.utils.TimeUtils;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -33,11 +34,10 @@ public class CooldownManager {
         this.settings = settings;
     }
 
-    public int getCooldownTime(Player player, Material material) {
+    public long getRemaining(Player player, Material material) {
         return (Optional.<Object>ofNullable(this.cooldowns.get(player.getName(), material))
                 .map(t -> Long.valueOf(((Long) t).longValue() - System.currentTimeMillis()))
-                .map(t -> Integer.valueOf((int) TimeUnit.MILLISECONDS.toSeconds(t.longValue())))
-                .orElse(0));
+                .orElse(0L));
     }
 
     public boolean checkItemUse(Player player, Material material) {
@@ -46,16 +46,19 @@ public class CooldownManager {
         long cd = settings.getItemCooldown(material);
         if (cd == 0f)
             return false;
-        int timeleft = getCooldownTime(player, material);
-        if (timeleft > 0) {
+        long remaining = getRemaining(player, material);
+        if (remaining > 0) {
+            int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(remaining);
             player.sendTitle(
                     locale.getMessage("cooldown.title"),
-                    Utils.replaceTime(locale.getMessage("cooldown.subtitle"), timeleft),
+                    TimeUtils.replaceTime(locale.getMessage("cooldown.subtitle"), seconds),
                     5, 20, 5
             );
             return true;
         }
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
+        if(!ProtocolLibUtils.replaceCooldownList.contains(material))
+            ProtocolLibUtils.sendItemCooldown(player, material, cd);
         return false;
     }
 

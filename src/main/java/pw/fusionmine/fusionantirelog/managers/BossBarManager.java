@@ -7,7 +7,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
-import pw.fusionmine.fusionantirelog.utils.Utils;
+import pw.fusionmine.fusionantirelog.utils.TimeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class BossBarManager {
     }
 
     public void createBossBar(Player player) {
-        BossBar bossBar = Bukkit.createBossBar(Utils.replaceTime(locale.getMessage("bossbar-time"), this.settings.getRawTagTime()), settings.getBarColor(), BarStyle.SOLID);
+        BossBar bossBar = Bukkit.createBossBar(TimeUtils.replaceTime(locale.getMessage("bossbar-time"), this.settings.getRawTagTime()), settings.getBarColor(), BarStyle.SOLID);
         bossBar.addPlayer(player);
         bossBar.setProgress(1.0D);
         this.bossBarMap.put(player.getName(), bossBar);
@@ -47,7 +47,7 @@ public class BossBarManager {
     public void updateBossBar(Player player, int timeLeft) {
         BossBar bossBar = this.bossBarMap.get(player.getName());
         double progress = Math.max(0.0, Math.min(1.0, (double) pvpManager.getTagTimeRaw(player) / settings.getTagTime()));
-        bossBar.setTitle(Utils.replaceTime(locale.getMessage("bossbar-time"), timeLeft));
+        bossBar.setTitle(TimeUtils.replaceTime(locale.getMessage("bossbar-time"), timeLeft));
         bossBar.setProgress(progress);
     }
 

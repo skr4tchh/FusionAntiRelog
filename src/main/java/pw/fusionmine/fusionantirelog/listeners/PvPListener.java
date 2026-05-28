@@ -16,7 +16,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
 import pw.fusionmine.fusionantirelog.managers.PvPManager;
-import pw.fusionmine.fusionantirelog.utils.Utils;
+import pw.fusionmine.fusionantirelog.utils.PotionUtils;
+import pw.fusionmine.fusionantirelog.utils.TimeUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,7 +89,7 @@ public class PvPListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPotionSplash(PotionSplashEvent e) {
-        if (!Utils.isHarmPotion(e.getPotion()))
+        if (!PotionUtils.isHarmPotion(e.getPotion()))
             return;
         Player damager = pvpManager.getDamager(e.getPotion());
         List<Player> damaged = e.getAffectedEntities().stream().filter(le -> (le != damager)).filter(Player.class::isInstance).map(Player.class::cast).collect(Collectors.toList());
