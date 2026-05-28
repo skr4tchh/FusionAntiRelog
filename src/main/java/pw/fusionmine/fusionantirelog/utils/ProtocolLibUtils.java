@@ -17,13 +17,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import pw.fusionmine.fusionantirelog.managers.CooldownManager;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @UtilityClass
 public class ProtocolLibUtils {
 
-    private static final boolean hasProtocolLib;
+    public static final boolean hasProtocolLib;
     private static Class<?> RESOURCE_LOCATION_CLASS;
 
     static {
@@ -63,7 +62,7 @@ public class ProtocolLibUtils {
         }
     }
 
-    public List<Material> replaceCooldownList = Arrays.asList(
+    public List<Material> replaceCooldownList = List.of(
             Material.CHORUS_FRUIT,
             Material.WIND_CHARGE,
             Material.ENDER_PEARL
@@ -76,6 +75,8 @@ public class ProtocolLibUtils {
                 public void onPacketSending(PacketEvent event) {
                     PacketContainer packet = event.getPacket();
                     Player player = event.getPlayer();
+                    int duration = event.getPacket().getIntegers().read(0);
+                    duration = duration * 50;
 
                     try {
                         Object resourceLocation = packet.getModifier().withType(RESOURCE_LOCATION_CLASS).read(0);
@@ -91,7 +92,11 @@ public class ProtocolLibUtils {
 
                         if (replaceCooldownList.contains(material)) {
                             long remaining = cooldownManager.getRemaining(player, material);
-                            if (remaining > 0L) {
+                            if (Math.abs(remaining - duration) > 100) {
+                                if (duration == 0) {
+                                    event.setCancelled(true);
+                                    return;
+                                }
                                 int ticks = MathUtils.millisToTicks(remaining);
                                 event.getPacket().getIntegers().write(0, ticks);
                             }

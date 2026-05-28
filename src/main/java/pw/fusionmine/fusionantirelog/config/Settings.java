@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Settings extends Config {

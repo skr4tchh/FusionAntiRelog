@@ -56,10 +56,20 @@ public class CooldownManager {
             );
             return true;
         }
+
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
+
         if(!ProtocolLibUtils.replaceCooldownList.contains(material))
             ProtocolLibUtils.sendItemCooldown(player, material, cd);
+
         return false;
+    }
+
+    public void clearCooldowns(Player player, String name) {
+        cooldowns.row(name).forEach((material, t) -> {
+            ProtocolLibUtils.sendItemCooldown(player, material, 0);
+        });
+        cooldowns.row(name).clear();
     }
 
 }

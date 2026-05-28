@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
 import pw.fusionmine.fusionantirelog.FusionAntiRelog;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
+import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -53,8 +54,8 @@ public class PvPManager {
     public void clear(Player player) {
         String name = player.getName();
         this.tagged.remove(name);
-        plugin.getCooldownManager().getCooldowns().row(name).clear();
         plugin.getBossBarManager().removeBossBar(name);
+        plugin.getCooldownManager().clearCooldowns(player, name);
     }
 
     public void checkTags() {
