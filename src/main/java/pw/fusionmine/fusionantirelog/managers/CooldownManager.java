@@ -67,7 +67,8 @@ public class CooldownManager {
 
     public void clearCooldowns(Player player, String name) {
         cooldowns.row(name).forEach((material, t) -> {
-            ProtocolLibUtils.sendItemCooldown(player, material, 0);
+            if(getRemaining(player, material) > 0)
+                ProtocolLibUtils.sendItemCooldown(player, material, 0);
         });
         cooldowns.row(name).clear();
     }
