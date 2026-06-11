@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitTask;
 import pw.fusionmine.fusionantirelog.FusionAntiRelog;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
-import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
