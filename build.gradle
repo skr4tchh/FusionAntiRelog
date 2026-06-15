@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '8.3.0'
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
@@ -13,15 +12,13 @@ repositories {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
-    maven { url = uri("https://repo.codemc.io/repository/maven-releases/") }
-    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     compileOnly ("org.projectlombok:lombok:1.18.38")
     annotationProcessor ("org.projectlombok:lombok:1.18.38")
-    implementation("com.github.retrooper:packetevents-spigot:2.12.2")
+    compileOnly ("net.dmulloy2:ProtocolLib:5.4.0")
 }
 
 tasks {
@@ -59,5 +56,3 @@ processResources {
         expand props
     }
 }
-
-build.dependsOn shadowJar

@@ -1,8 +1,6 @@
 package pw.fusionmine.fusionantirelog;
 
 import lombok.Getter;
-import org.bukkit.entity.*;
-import org.bukkit.event.player.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pw.fusionmine.fusionantirelog.config.Locale;
@@ -12,9 +10,7 @@ import pw.fusionmine.fusionantirelog.listeners.PvPListener;
 import pw.fusionmine.fusionantirelog.managers.BossBarManager;
 import pw.fusionmine.fusionantirelog.managers.CooldownManager;
 import pw.fusionmine.fusionantirelog.managers.PvPManager;
-import pw.fusionmine.fusionantirelog.utils.PacketEventsUtils;
-
-import java.util.*;
+import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
 
 @Getter
 public class FusionAntiRelog extends JavaPlugin {
@@ -44,7 +40,7 @@ public class FusionAntiRelog extends JavaPlugin {
         pluginManager.registerEvents(new CooldownListener(cooldownManager), this);
         pluginManager.registerEvents(new PvPListener(pvpManager, settings, locale), this);
 
-        PacketEventsUtils.createListener(this.cooldownManager);
+        ProtocolLibUtils.createListener(this, this.cooldownManager);
     }
 
     @Override

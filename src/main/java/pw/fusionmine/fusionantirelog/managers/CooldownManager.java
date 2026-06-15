@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pw.fusionmine.fusionantirelog.config.Locale;
 import pw.fusionmine.fusionantirelog.config.Settings;
-import pw.fusionmine.fusionantirelog.utils.PacketEventsUtils;
+import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
 import pw.fusionmine.fusionantirelog.utils.TimeUtils;
 
 import java.util.Optional;
@@ -59,8 +59,8 @@ public class CooldownManager {
 
         this.cooldowns.put(player.getName(), material, System.currentTimeMillis() + cd);
 
-        if(!PacketEventsUtils.replaceCooldownList.contains(material))
-            PacketEventsUtils.sendItemCooldown(player, material, cd);
+        if(!ProtocolLibUtils.replaceCooldownList.contains(material))
+            ProtocolLibUtils.sendItemCooldown(player, material, cd);
 
         return false;
     }
@@ -68,7 +68,7 @@ public class CooldownManager {
     public void clearCooldowns(Player player, String name) {
         cooldowns.row(name).forEach((material, t) -> {
             if(getRemaining(player, material) > 0)
-                PacketEventsUtils.sendItemCooldown(player, material, 0);
+                ProtocolLibUtils.sendItemCooldown(player, material, 0);
         });
         cooldowns.row(name).clear();
     }
