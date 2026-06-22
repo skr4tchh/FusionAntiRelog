@@ -10,7 +10,7 @@ import pw.fusionmine.fusionantirelog.listeners.PvPListener;
 import pw.fusionmine.fusionantirelog.managers.BossBarManager;
 import pw.fusionmine.fusionantirelog.managers.CooldownManager;
 import pw.fusionmine.fusionantirelog.managers.PvPManager;
-import pw.fusionmine.fusionantirelog.utils.ProtocolLibUtils;
+import pw.fusionmine.fusionantirelog.utils.PacketEventsUtils;
 
 @Getter
 public class FusionAntiRelog extends JavaPlugin {
@@ -40,7 +40,7 @@ public class FusionAntiRelog extends JavaPlugin {
         pluginManager.registerEvents(new CooldownListener(cooldownManager), this);
         pluginManager.registerEvents(new PvPListener(pvpManager, settings, locale), this);
 
-        ProtocolLibUtils.createListener(this, this.cooldownManager);
+        PacketEventsUtils.createListener(this.cooldownManager);
     }
 
     @Override
